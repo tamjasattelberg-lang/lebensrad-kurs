@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!--
+  ============================================================
+  © 2024–2025 Tanja Sattelberg · Systemische Beraterin & Coach
+  Alle Rechte vorbehalten · All rights reserved
+
+   des Lebensrad-Tools.
+  Persönliche Nutzung erlaubt.
+  Weitergabe, Veränderung oder kommerzielle Nutzung
+  ohne schriftliche Genehmigung nicht gestattet.
+
+  Kontakt: info@veraenderungsweg.de
+  ============================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lebensrad Selbstcheck · Vollversion · Tanja Sattelberg</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#FAF8F4;--warm:#F5F0EA;--cream:#F0EBE3;
+  --text:#3A3530;--soft:#7A7068;--muted:#B0A898;
+  --border:#E0D8CE;--borderl:#EDE8E0;
+  --accent:#C4749A;--accent-mid:#DDA8C0;--accent-bg:#FDF0F6;
+}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);font-size:14px;font-weight:300;line-height:1.6;min-height:100vh;}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;}
+h2{font-size:1.35rem;margin-bottom:.3rem;}
+h3{font-size:1.1rem;}
+p{line-height:1.65;}
+textarea{width:100%;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;resize:vertical;min-height:72px;line-height:1.6;transition:border .2s;}
+textarea:focus{outline:none;border-color:var(--accent-mid);}
+.header{background:var(--warm);border-bottom:1px solid var(--border);padding:1.5rem 1.5rem 1.2rem;text-align:center;}
+.brand{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+.header h1{font-size:1.8rem;font-weight:400;font-style:italic;line-height:1.15;margin-bottom:.3rem;}
+.tagline{font-size:12px;letter-spacing:.1em;color:var(--soft);}
+.freebie-banner{background:var(--accent-bg);border-bottom:1px solid var(--accent-mid);padding:.7rem 1.5rem;text-align:center;font-size:12px;color:var(--soft);line-height:1.5;}
+.freebie-banner strong{color:var(--accent);font-weight:500;}
+.disclaimer-bar{background:#FFF8FA;border-bottom:1px solid var(--accent-mid);padding:.65rem 1.5rem;text-align:center;}
+.disclaimer-bar p{font-size:11px;color:var(--soft);max-width:760px;margin:0 auto;line-height:1.6;}
+.disclaimer-bar strong{color:var(--text);font-weight:500;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--warm);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{font-family:'Jost',sans-serif;font-size:12px;font-weight:400;letter-spacing:.06em;padding:12px 18px;border:none;background:transparent;color:var(--soft);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-bg);}
+.tab.tab-cta{color:var(--accent);font-weight:400;}
+.tab.tab-cta.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-bg);}
+.main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+.panel{display:none;}
+.panel.active{display:block;}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:1rem;}
+.sub{font-size:12px;color:var(--soft);margin-bottom:1rem;line-height:1.6;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1rem;}
+.stat-box{background:var(--cream);border-radius:10px;padding:.7rem .9rem;text-align:center;}
+.stat-box .num{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;line-height:1;}
+.stat-box .lbl{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-top:2px;}
+.wheel-wrap{display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;}
+.wheel-svg-wrap{cursor:pointer;}
+.sliders{flex:1;min-width:200px;display:flex;flex-direction:column;gap:.6rem;}
+.sl-row{display:flex;align-items:center;gap:8px;}
+.sl-name{font-size:12px;width:110px;flex-shrink:0;color:var(--text);}
+.sl-val{font-size:12px;font-weight:500;width:16px;text-align:right;flex-shrink:0;}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;outline:none;cursor:pointer;background:linear-gradient(to right,var(--accent-mid) 0%,var(--accent-mid) 50%,var(--border) 50%,var(--border) 100%);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 1px 4px rgba(196,116,154,.3);}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;}
+.qs{display:flex;flex-direction:column;gap:.8rem;}
+.q-item label{font-size:13px;color:var(--text);display:block;margin-bottom:5px;line-height:1.5;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:.5rem;}
+.btn{font-family:'Jost',sans-serif;font-size:12px;font-weight:400;letter-spacing:.06em;padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:all .2s;}
+.btn:hover{background:var(--cream);border-color:var(--accent-mid);color:var(--accent);}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.primary:hover{background:#B56A90;}
+
+/* Reflexion pro Bereich */
+.seg-selector{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+.seg-btn{font-family:'Jost',sans-serif;font-size:11px;font-weight:400;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--soft);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;}
+.seg-btn.active{border-color:var(--accent-mid);background:var(--accent-bg);color:var(--accent);}
+.mod-detail{flex:1;min-width:220px;}
+.mod-header{display:flex;align-items:center;gap:8px;margin-bottom:.8rem;flex-wrap:wrap;}
+.mod-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.mod-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500;}
+.sec-title{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem;}
+.score-ctx{font-size:12px;padding:6px 10px;border-radius:6px;margin-bottom:.6rem;}
+.score-ctx.low{background:#FFF0F0;color:#C07070;}
+.score-ctx.mid{background:#FFF8EC;color:#A08040;}
+.score-ctx.high{background:#F0FAF0;color:#60A060;}
+.rec-box{font-size:13px;color:var(--soft);line-height:1.65;padding:10px 12px;background:var(--cream);border-radius:8px;border-left:2px solid var(--accent-mid);}
+.rec-box strong{color:var(--text);font-weight:500;display:block;margin-bottom:4px;}
+.affirmations{display:flex;flex-direction:column;gap:6px;}
+.affirmation{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--text);padding:8px 12px;background:var(--accent-bg);border-radius:8px;line-height:1.5;}
+.hint{font-size:11px;color:var(--muted);margin-bottom:.8rem;font-style:italic;}
+
+/* Opt-in panel */
+.optin-hero{text-align:center;padding:2rem 1rem 1.5rem;}
+.optin-hero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.optin-hero h2{font-size:1.9rem;line-height:1.2;margin-bottom:.7rem;}
+.optin-hero p{font-size:13px;color:var(--soft);max-width:520px;margin:0 auto;line-height:1.7;}
+.result-highlight{background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;}
+.result-highlight .rh-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+.result-areas{display:flex;flex-direction:column;gap:6px;}
+.result-area-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;}
+.result-area-name{color:var(--text);}
+.result-area-bar-wrap{flex:1;margin:0 10px;height:4px;background:var(--border);border-radius:2px;}
+.result-area-bar{height:4px;border-radius:2px;background:var(--accent-mid);}
+.result-area-val{color:var(--soft);font-size:12px;min-width:20px;text-align:right;}
+.optin-box{background:var(--accent-bg);border:1px solid var(--accent-mid);border-radius:14px;padding:1.8rem;text-align:center;margin-top:1rem;}
+.optin-box h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;margin-bottom:.5rem;}
+.optin-box p{font-size:13px;color:var(--soft);margin-bottom:1.2rem;line-height:1.65;max-width:460px;margin-left:auto;margin-right:auto;}
+.optin-form{display:flex;gap:8px;max-width:420px;margin:0 auto 1rem;flex-wrap:wrap;}
+.optin-form input{flex:1;min-width:180px;font-family:'Jost',sans-serif;font-size:13px;padding:10px 14px;border:1px solid var(--accent-mid);border-radius:8px;background:#fff;color:var(--text);}
+.optin-form input:focus{outline:none;border-color:var(--accent);}
+.optin-form button{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:.06em;padding:10px 22px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.optin-form button:hover{background:#B56A90;}
+.optin-note{font-size:11px;color:var(--muted);margin-top:.5rem;}
+.optin-divider{display:flex;align-items:center;gap:10px;margin:1.2rem 0;color:var(--muted);font-size:11px;}
+.optin-divider::before,.optin-divider::after{content:'';flex:1;height:0.5px;background:var(--accent-mid);}
+.kurs-hint{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem;margin-top:1rem;}
+.kurs-hint h3{font-size:1.05rem;margin-bottom:.4rem;}
+.kurs-hint p{font-size:12px;color:var(--soft);line-height:1.6;margin-bottom:.8rem;}
+.kurs-hint a{display:inline-block;font-size:12px;padding:7px 16px;border-radius:7px;border:1px solid var(--accent-mid);color:var(--accent);text-decoration:none;transition:all .2s;}
+.kurs-hint a:hover{background:var(--accent);color:#fff;}
+.kurs-teaser{background:var(--accent-bg);border:1px solid var(--accent-mid);border-radius:10px;padding:12px 14px;margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.kt-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;}
+.kt-text{font-size:12px;color:var(--soft);line-height:1.6;}
+.kt-btn{align-self:flex-start;font-size:11px;padding:6px 14px;border-radius:6px;border:1px solid var(--accent-mid);background:transparent;color:var(--accent);cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;}
+.kt-btn:hover{background:var(--accent);color:#fff;}
+.result-teaser{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--soft);line-height:1.6;padding:8px 12px;background:var(--accent-bg);border-radius:8px;margin-bottom:4px;}
+.rt-icon{color:var(--accent);flex-shrink:0;font-size:11px;margin-top:2px;}
+.rt-text{flex:1;}
+
+@media(max-width:600px){
+  .wheel-wrap{flex-direction:column;}
+  .mod-detail{min-width:unset;width:100%;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .optin-form{flex-direction:column;}
+  .optin-form input,.optin-form button{width:100%;}
+}
+@media print{
+  .tabs,.btn-row,.seg-selector,.hint,.disclaimer-bar,.freebie-banner,.site-footer{display:none!important;}
+  .panel{display:block!important;} .main{padding:0;} body{background:white;}
+  .card{page-break-inside:avoid;border:1px solid #ddd;}
+}
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Kurs-Empfehlungs-Box */
+.kurs-empfehlung{background:var(--accent-bg);border:1px solid var(--accent-mid);border-radius:14px;padding:1.4rem 1.6rem;margin-top:1.2rem;}
+.ke-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:.8rem;}
+.ke-intro{font-size:13px;color:var(--soft);margin-bottom:1rem;line-height:1.6;}
+.ke-cards{display:flex;flex-direction:column;gap:.7rem;}
+.ke-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;display:flex;align-items:center;gap:.9rem;}
+.ke-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ke-info{flex:1;}
+.ke-bereich{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.ke-name{font-size:14px;color:var(--text);font-weight:400;margin-top:1px;}
+.ke-score{font-size:12px;color:var(--soft);}
+.ke-btn{font-size:11px;padding:6px 14px;border-radius:6px;border:1px solid var(--accent-mid);background:transparent;color:var(--accent);cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;white-space:nowrap;text-decoration:none;}
+.ke-btn:hover{background:var(--accent);color:#fff;}
+
+input[type=range]{touch-action:none;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">Tanja Sattelberg · Coaching</div>
+  <h1>Mein Lebensrad</h1>
+  <div class="tagline">Selbstcheck für mehr Klarheit · Vollversion</div>
+</div>
+
+<div class="freebie-banner">
+  <strong>Vollversion · Dein persönlicher Selbstcheck.</strong> Fülle dein Lebensrad aus und erkenne, welche Bereiche deines Lebens gerade Aufmerksamkeit brauchen. Dieses Tool gibt dir eine klare Standortbestimmung.
+</div>
+
+<div class="disclaimer-bar">
+  <p><strong>Coaching- & Selbstreflexionsangebot – kein therapeutisches Angebot.</strong> Dieses Tool ersetzt keine Psychotherapie und keine medizinische Behandlung.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showPanel('start')">Mein Lebensrad</button>
+  <button class="tab" onclick="showPanel('reflexion')">Reflexion</button>
+  <button class="tab tab-cta" onclick="showPanel('ergebnis')">Mein Ergebnis ✦</button>
+</div>
+
+<div class="main">
+
+<!-- LEBENSRAD -->
+<div class="panel active" id="panel-start">
+  <div class="card">
+    <h2>Wo stehe ich heute?</h2>
+    <div class="sub">Bewerte jeden Lebensbereich ehrlich auf einer Skala von 0–10. 0 = kaum vorhanden · 10 = vollkommen zufrieden</div>
+    <div class="stats" id="stats-start"></div>
+    <div class="wheel-wrap">
+      <div id="svg-start" class="wheel-svg-wrap" style="max-width:300px;width:100%;aspect-ratio:1;flex-shrink:0;"></div>
+      <div class="sliders" id="sliders-start"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Erster Eindruck</h2>
+    <div class="sub">Lass die Zahlen kurz wirken – bevor du anfängst zu erklären oder zu relativieren.</div>
+    <div class="qs">
+      <div class="q-item"><label>Welcher Bereich überrascht dich – positiv oder negativ?</label><textarea placeholder="..."></textarea></div>
+      <div class="q-item"><label>Wo spürst du einen Widerspruch zwischen äußerem Funktionieren und innerem Erleben?</label><textarea placeholder="..."></textarea></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="showPanel('reflexion')">Weiter zur Reflexion →</button>
+    <button class="btn" onclick="window.print()">Drucken / PDF</button>
+  </div>
+</div>
+
+<!-- REFLEXION -->
+<div class="panel" id="panel-reflexion">
+  <div class="card">
+    <h2>Reflexion pro Lebensbereich</h2>
+    <div class="sub">Wähle einen Bereich – du siehst sofort einen Impuls und eine Affirmation passend zu deinem aktuellen Wert.</div>
+    <div class="seg-selector" id="seg-sel"></div>
+    <div class="hint">Tipp: Du kannst auch direkt ins Rad klicken, um einen Bereich auszuwählen.</div>
+    <div class="wheel-wrap">
+      <div id="svg-reflexion" class="wheel-svg-wrap" style="max-width:300px;width:100%;aspect-ratio:1;flex-shrink:0;"></div>
+      <div class="mod-detail" id="mod-detail"></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="showPanel('ergebnis')">Zu meinem Ergebnis ✦</button>
+    <button class="btn" onclick="showPanel('start')">← Zurück</button>
+  </div>
+</div>
+
+<!-- ERGEBNIS + OPT-IN -->
+<div class="panel" id="panel-ergebnis">
+  <div class="card">
+    <div class="optin-hero">
+      <div class="eyebrow">Dein persönliches Ergebnis</div>
+      <h2>Das zeigt dein Lebensrad.</h2>
+      <p>Schau dir an, wo Energie fließt – und wo sie fehlt. Dein Lebensrad ist kein Urteil, sondern eine Einladung zum Hinschauen.</p>
+    </div>
+    <div class="result-highlight">
+      <div class="rh-label">Deine 8 Lebensbereiche im Überblick</div>
+      <div class="result-areas" id="result-areas"></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--accent-mid);background:var(--accent-bg);text-align:center;padding:2rem 1.8rem;">
+    <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">Dein nächster Schritt</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;margin-bottom:.7rem;">Bereit, tiefer zu gehen?</h3>
+    <p style="font-size:13px;color:var(--soft);max-width:440px;margin:0 auto 1.4rem;line-height:1.7;">Der Kurs „Vom Funktionieren zum Fühlen" ist in Vorbereitung. Trag dich auf die Warteliste ein und erfahre als Erste, wenn er startet.</p>
+    <a href="DEINE_KURSSEITE_URL" target="_blank" style="display:inline-block;background:var(--accent);color:#fff;font-family:'Jost',sans-serif;font-size:13px;padding:11px 26px;border-radius:8px;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='#B56A90'" onmouseout="this.style.background='var(--accent)'">Auf die Warteliste →</a>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="showPanel('start')">← Zurück zum Rad</button>
+    <button class="btn" onclick="window.print()">Drucken / PDF</button>
+  </div>
+</div>
+
+<div class="kurs-empfehlung" id="kurs-empfehlung-box" style="margin:0 1.5rem 1.5rem;"></div>
+</div><!-- /main -->
+
+<div class="site-footer" style="background:var(--warm);border-top:1px solid var(--border);padding:1rem 1.5rem;text-align:center;font-size:11px;color:var(--muted);line-height:1.7;">
+  <div>© 2024–2025 Tanja Sattelberg · Systemische Beraterin & Coach · <a href="https://veraenderungsweg.de" style="color:inherit;">veraenderungsweg.de</a></div>
+  <div style="margin-top:3px;">Konzept und Gestaltung urheberrechtlich geschützt. Persönliche Nutzung erlaubt. Weitergabe oder kommerzielle Nutzung nicht gestattet.</div>
+</div>
+
+<script>
+const SEG = [
+  { name:"Inneres Erleben", kurs:{name:"Mehr bei mir", nr:"01", url:"https://veraenderungsweg.de/kurs-01"}, mid:"#8ECFB4", light:"#C8E8DA", dark:"#5BA88A",
+    frage:"Wo spürst du Unruhe oder Leere – auch wenn äußerlich alles stimmt?",
+    impuls:"Was würde dein inneres Erleben sagen, wenn du ihm wirklich zuhören würdest?",
+    low:"Dein inneres Erleben braucht gerade Aufmerksamkeit. Innere Unzufriedenheit ist kein Zeichen von Schwäche – sie ist ein wichtiges Signal.",
+    mid:"Du hast Zugang zu dir, aber es gibt noch Schichten, die warten. Frage dich täglich: Was fühle ich – und wo genau im Körper?",
+    high:"Du bist gut in Kontakt mit deinem inneren Erleben. Nutze diese Klarheit als Anker – auch in unruhigen Momenten.",
+    aff:["Meine innere Wahrheit ist es wert, wahrgenommen zu werden.","Ich erlaube mir zu fühlen, was wirklich da ist."],
+    teaser:"Im Kurs lernst du das Emotions-Barometer – eine tägliche 2-Minuten-Praxis, die dein inneres Erleben grundlegend verändert." },
+  { name:"Beziehungen", kurs:{name:"Mehr ich", nr:"02", url:"https://veraenderungsweg.de/kurs-02"}, mid:"#E8A8C4", light:"#F5D6E4", dark:"#C97AA0",
+    frage:"In welcher Beziehung bist du der eigenen Wahrheit am nächsten – und in welcher verlierst du dich?",
+    impuls:"Wo sagst du Ja, obwohl ein inneres Nein da ist – und was kostet dich das?",
+    low:"Deine Beziehungen kosten gerade viel Energie. Grenzen sind kein Angriff, sondern Ausdruck von Selbstachtung.",
+    mid:"Du findest dich in Beziehungen ganz gut, aber es gibt Muster. Welche Rollen wählst du wirklich – und welche hast du übernommen?",
+    high:"Deine Beziehungen nähren dich. Was macht diese Verbindungen so tragfähig?",
+    aff:["Ich darf Nein sagen und trotzdem liebenswert sein.","Klare Grenzen ermöglichen echte Begegnung."],
+    teaser:"Im Kurs wartet die Grenz-Reflexion: 5 konkrete Situationen, in denen du lernst, ein echtes Nein zu fühlen – und zu sagen." },
+  { name:"Arbeit", kurs:{name:"Mehr Freiheit", nr:"03", url:"https://veraenderungsweg.de/kurs-03"}, mid:"#95BBE8", light:"#C8DCF5", dark:"#6090C8",
+    frage:"Arbeitest du gerade aus freier Wahl – oder aus Pflicht, Angst oder Schuldgefühl?",
+    impuls:"Welche Überzeugungen steuern dein Verhalten bei der Arbeit – ohne dass du es bewusst merkst?",
+    low:"Im Bereich Arbeit sind oft tiefe Glaubenssätze aktiv. Wessen alte Stimme sprichst du nach, wenn es um Leistung und Pflicht geht?",
+    mid:"Du hast eine recht klare Haltung zur Arbeit, aber es gibt noch Automatismen. Was steuert dich wirklich?",
+    high:"Arbeit fühlt sich stimmig an. Welche Rollen nähren dich – und welche wurden dir zugeschrieben?",
+    aff:["Ich arbeite aus Stärke – nicht aus Angst.","Mein Wert bemisst sich nicht an meiner Leistung."],
+    teaser:"Im Kurs deckst du mit der Satzergänzungs-Übung auf, wessen alte Stimme dein Verhalten bei der Arbeit noch steuert." },
+  { name:"Finanzen", kurs:{name:"Mehr Klarheit", nr:"04", url:"https://veraenderungsweg.de/kurs-04"}, mid:"#BEB6E8", light:"#DDD8F5", dark:"#9080CC",
+    frage:"Triffst du Finanzentscheidungen aus Klarheit – oder aus Angst, Scham oder Vermeidung?",
+    impuls:"Welche Glaubenssätze über Geld hast du in deiner Familie gelernt?",
+    low:"Im Bereich Finanzen sind häufig sehr frühe Glaubenssätze aktiv. Welche dienen dir heute noch – und welche begrenzen dich?",
+    mid:"Du hast eine grundsätzliche Beziehung zu Finanzen, aber es gibt noch unbewusste Muster.",
+    high:"Deine Beziehung zu Finanzen ist stabil. Triffst du Entscheidungen aus Klarheit – oder noch aus alten Ängsten?",
+    aff:["Ich darf eine entspannte Beziehung zu Geld haben.","Ich entscheide über Geld aus Klarheit, nicht aus Angst."],
+    teaser:"Im Kurs erkennst du, welche frühen Glaubenssätze über Geld bis heute deine Entscheidungen beeinflussen." },
+  { name:"Körper", kurs:{name:"Mehr Heimat", nr:"05a", url:"https://veraenderungsweg.de/kurs-05a"}, mid:"#F5B8A4", light:"#FCDDD3", dark:"#D98870",
+    frage:"Welche Signale sendet dein Körper gerade – und wie gut hörst du ihnen zu?",
+    impuls:"Was braucht dein Körper gerade, das er noch nicht bekommt?",
+    low:"Dein Körper sendet wichtige Signale. Die Fähigkeit zur Entspannung ist keine Charakterfrage – sie ist eine erlernbare Kompetenz.",
+    mid:"Du hast eine grundsätzliche Verbindung zu deinem Körper. Wie kannst du seine Signale gezielter wahrnehmen?",
+    high:"Dein Körper fühlt sich als Heimat an. Ein reguliertes Nervensystem braucht täglich kleine Momente von Sicherheit.",
+    aff:["Mein Körper ist kein Werkzeug – er ist der Ort, an dem mein Erleben lebt.","Entspannung ist eine Fähigkeit, die ich lernen und üben darf."],
+    teaser:"Im Kurs erstellst du deine persönliche Polyvagale Leiter – eine Landkarte deines Nervensystems, die alles verändert." },
+  { name:"Entwicklung", kurs:{name:"Mehr Mut", nr:"06", url:"https://veraenderungsweg.de/kurs-06"}, mid:"#F5CE80", light:"#FAE8C0", dark:"#D4A84A",
+    frage:"Welche alten Glaubenssätze und Selbstbilder passen gerade nicht mehr?",
+    impuls:"Was möchtest du in dir wachsen lassen – und was darf sich verabschieden?",
+    low:"Entwicklung fühlt sich gerade schwer an – das ist normal. Wachstum fühlt sich anfangs oft schlechter an als Stillstand.",
+    mid:"Du bist im Prozess. Welche alten Überzeugungen verlangsamen deine Entwicklung noch?",
+    high:"Du wächst – und das ist spürbar. Vertraue dem Prozess auch dann, wenn er sich unordentlich anfühlt.",
+    aff:["Ich bin im Prozess – und das ist genug.","Alte Glaubenssätze haben mich einmal geschützt. Heute darf ich neue wählen."],
+    teaser:"Im Kurs schreibst du den Übergangs-Brief: ein kraftvolles Werkzeug, das dem Chaos der Veränderung seine Bedrohlichkeit nimmt." },
+  { name:"Alltag", kurs:{name:"Schritt für Schritt", nr:"07", url:"https://veraenderungsweg.de/kurs-07"}, mid:"#B0D880", light:"#D8ECC0", dark:"#7AAE50",
+    frage:"Wie viel echte Erholung – nicht nur Pause – gönst du dir im Alltag wirklich?",
+    impuls:"Was würde es bedeuten, Selbstfürsorge nicht als Belohnung, sondern als Grundlage des Alltags zu leben?",
+    low:"Dein Alltag ist gerade sehr voll. Kleine tägliche Momente von Sicherheit verändern das Nervensystem mehr als große Auszeiten.",
+    mid:"Du pflegst dich, aber noch nicht kontinuierlich. Ein kurzes tägliches Ritual – ohne Druck – kann viel verändern.",
+    high:"Dein Alltag trägt dich. Veränderung ist erst nachhaltig, wenn sie im Alltag verankert ist – und das lebst du bereits.",
+    aff:["Selbstfürsorge ist die Grundlage von allem – nicht eine Belohnung danach.","Kleine tägliche Momente der Selbstwahrnehmung verändern alles."],
+    teaser:"Im Kurs entwickelst du ein tägliches 5-Minuten-Integrationsritual, das Veränderung wirklich im Alltag verankert." },
+  { name:"Lebensfreude", kurs:{name:"Mehr Leichtigkeit", nr:"08", url:"https://veraenderungsweg.de/kurs-08"}, mid:"#F0C0B0", light:"#FAE0D8", dark:"#D09080",
+    frage:"Wann hast du zuletzt etwas getan, nur weil es dir Freude macht – ohne Produktivitätszweck?",
+    impuls:"Erlaubst du dir Leichtigkeit – oder fühlt sich Genuss irgendwie 'nicht verdient' an?",
+    low:"Lebensfreude kommt gerade zu kurz. Wo in deinem Leben bist du der eigenen Wahrheit am nächsten? Dort liegt oft auch die Freude.",
+    mid:"Du hast Freude im Leben, aber sie kommt nicht ganz selbstverständlich. Was genau macht einen Moment lebendig und leicht?",
+    high:"Lebensfreude ist ein tragender Pfeiler. Wie kannst du diese Qualität auch in schwerere Bereiche einladen?",
+    aff:["Ich verdiene Freude – einfach so, ohne sie mir verdienen zu müssen.","Leichtigkeit ist kein Luxus, sie ist eine Notwendigkeit."],
+    teaser:"Im Kurs erstellst du deine Rollen-Landkarte – und entdeckst, in welcher Rolle du dir selbst am nächsten bist." }
+];
+
+const N = SEG.length;
+const state = { start: SEG.map(()=>5) };
+let activeIdx = 0;
+
+// ── Rad zeichnen ─────────────────────────
+function draw(id, vals, hl) {
+  const wrapId = id.replace("canvas-","svg-");
+  const wrap = document.getElementById(wrapId);
+  if(!wrap) return;
+  const S=300,cx=150,cy=150,R=136,Ri=16;
+  const step=(2*Math.PI)/N, sa=-Math.PI/2;
+  function px(a,r){return cx+Math.cos(a)*r;}
+  function py(a,r){return cy+Math.sin(a)*r;}
+  function segPath(i,v){
+    const r=Ri+(R-Ri)*v/10,a1=sa+i*step,a2=a1+step-0.003,lf=step>Math.PI?1:0;
+    return `M${px(a1,Ri)} ${py(a1,Ri)} L${px(a1,r)} ${py(a1,r)} A${r} ${r} 0 ${lf} 1 ${px(a2,r)} ${py(a2,r)} L${px(a2,Ri)} ${py(a2,Ri)} A${Ri} ${Ri} 0 ${lf} 0 ${px(a1,Ri)} ${py(a1,Ri)} Z`;
+  }
+  let s=`<svg viewBox="0 0 ${S} ${S}" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">`;
+  for(let r=1;r<=10;r++){
+    const gr=Ri+(R-Ri)*r/10,col=r%2===0?"rgba(0,0,0,0.055)":"rgba(0,0,0,0.025)",sw=r%5===0?0.8:0.4;
+    s+=`<circle cx="${cx}" cy="${cy}" r="${gr.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}"/>`;
+  }
+  SEG.forEach((sg,i)=>{
+    const v=vals[i],fill=hl===i?sg.mid+"ee":sg.light+"dd",str=hl===i?sg.dark+"cc":sg.mid+"88",sw=hl===i?1.2:0.7;
+    s+=`<path d="${segPath(i,v)}" fill="${fill}" stroke="${str}" stroke-width="${sw}"/>`;
+  });
+  for(let i=0;i<N;i++){
+    const a=sa+i*step;
+    s+=`<line x1="${px(a,Ri).toFixed(1)}" y1="${py(a,Ri).toFixed(1)}" x2="${px(a,R).toFixed(1)}" y2="${py(a,R).toFixed(1)}" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>`;
+  }
+  s+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(180,160,140,0.18)" stroke-width="1"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="${Ri}" fill="#FAF8F4"/>`;
+  SEG.forEach((sg,i)=>{
+    const v=vals[i]; if(v<1) return;
+    const am=sa+(i+0.5)*step,r=Ri+(R-Ri)*v/10;
+    s+=`<text x="${(cx+Math.cos(am)*(r-12)).toFixed(1)}" y="${(cy+Math.sin(am)*(r-12)).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Jost,sans-serif" font-size="10" font-weight="500" fill="${sg.dark}cc">${v}</text>`;
+  });
+  const lr=R+22;
+  SEG.forEach((sg,i)=>{
+    const am=sa+(i+0.5)*step,lx=(cx+Math.cos(am)*lr).toFixed(1),ly=(cy+Math.sin(am)*lr).toFixed(1);
+    const cos=Math.cos(am),anc=cos>0.12?"start":cos<-0.12?"end":"middle";
+    const col=hl===i?"#3A3530":"#8A8078",words=sg.name.split(" "),fs=8.5,lh=11;
+    if(words.length<=2){
+      s+=`<text x="${lx}" y="${ly}" text-anchor="${anc}" dominant-baseline="middle" font-family="Jost,sans-serif" font-size="${fs}" font-weight="300" fill="${col}">${sg.name}</text>`;
+    } else {
+      const mid=Math.ceil(words.length/2),l1=words.slice(0,mid).join(" "),l2=words.slice(mid).join(" ");
+      s+=`<text x="${lx}" y="${(parseFloat(ly)-lh/2).toFixed(1)}" text-anchor="${anc}" dominant-baseline="middle" font-family="Jost,sans-serif" font-size="${fs}" font-weight="300" fill="${col}">${l1}</text>`;
+      s+=`<text x="${lx}" y="${(parseFloat(ly)+lh/2).toFixed(1)}" text-anchor="${anc}" dominant-baseline="middle" font-family="Jost,sans-serif" font-size="${fs}" font-weight="300" fill="${col}">${l2}</text>`;
+    }
+  });
+  s+=`</svg>`;
+  wrap.innerHTML=s;
+}
+
+// ── Stats ─────────────────────────────────
+function renderStats() {
+  const v=state.start;
+  const avg=(v.reduce((a,b)=>a+b,0)/N).toFixed(1);
+  const maxV=Math.max(...v),minV=Math.min(...v);
+  const el=document.getElementById("stats-start");
+  if(!el) return;
+  el.innerHTML=`
+    <div class="stat-box"><div class="num">${avg}</div><div class="lbl">Ø Zufriedenheit</div></div>
+    <div class="stat-box"><div class="num">${SEG[v.indexOf(maxV)].name}</div><div class="lbl">Stärkster Bereich</div></div>
+    <div class="stat-box"><div class="num">${SEG[v.indexOf(minV)].name}</div><div class="lbl">Größtes Potenzial</div></div>`;
+}
+
+// ── Sliders ───────────────────────────────
+function buildSliders() {
+  const el=document.getElementById("sliders-start");
+  if(!el) return;
+  el.innerHTML="";
+  SEG.forEach((sg,i)=>{
+    const row=document.createElement("div");
+    row.className="sl-row";
+    row.innerHTML=`<span class="sl-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${sg.mid};margin-right:5px;"></span>${sg.name}</span>
+      <input type="range" min="0" max="10" step="1" value="${state.start[i]}" id="sl-start-${i}" oninput="updSlider(${i},this.value)">
+      <span class="sl-val" id="sv-start-${i}">${state.start[i]}</span>`;
+    el.appendChild(row);
+  });
+}
+
+function updSlider(i,val){
+  val=parseInt(val);
+  state.start[i]=val;
+  document.getElementById("sv-start-"+i).textContent=val;
+  const pct=(val/10)*100;
+  document.getElementById("sl-start-"+i).style.background=`linear-gradient(to right,var(--accent-mid) 0%,var(--accent-mid) ${pct}%,var(--border) ${pct}%,var(--border) 100%)`;
+  draw("canvas-start",state.start);
+  renderStats();
+  renderKursEmpfehlung();
+  try{localStorage.setItem("lr_fb",JSON.stringify(state.start));}catch(e){}
+}
+
+// ── Segment-Selector ──────────────────────
+function buildSegSel(){
+  const el=document.getElementById("seg-sel");
+  if(!el) return;
+  el.innerHTML="";
+  SEG.forEach((sg,i)=>{
+    const b=document.createElement("button");
+    b.className="seg-btn"+(i===0?" active":"");
+    b.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${sg.mid};display:inline-block;flex-shrink:0"></span>${sg.name}`;
+    b.addEventListener("click",()=>{
+      document.querySelectorAll(".seg-btn").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      activeIdx=i;
+      renderDetail(i);
+      draw("canvas-reflexion",state.start,i);
+    });
+    el.appendChild(b);
+  });
+}
+
+// ── Detail ────────────────────────────────
+function sc(v){return v<=3?"low":v<=6?"mid":"high";}
+
+function renderDetail(idx){
+  const sg=SEG[idx],v=state.start[idx],cls=sc(v);
+  const emp=cls==="low"?sg.low:cls==="mid"?sg.mid:sg.high;
+  document.getElementById("mod-detail").innerHTML=`
+    <div class="mod-header">
+      <span class="mod-dot" style="background:${sg.mid}"></span>
+      <span class="mod-title">${sg.name}</span>
+    </div>
+    <div class="score-ctx ${cls}">Dein aktueller Wert: ${v}/10</div>
+    <div class="sec-title">Erste Orientierung</div>
+    <div class="rec-box">${emp}</div>
+    <div class="sec-title">Eine Frage zum Nachdenken</div>
+    <div class="rec-box" style="border-left-color:${sg.mid};">${sg.frage}</div>
+    <div class="sec-title">Deine Antwort</div>
+    <div class="qs"><div class="q-item"><textarea placeholder="..."></textarea></div></div>
+    <div class="sec-title">Affirmation für heute</div>
+    <div class="affirmations"><div class="affirmation">${sg.aff[0]}</div></div>
+    <div class="kurs-teaser">
+      <div class="kt-label">✦ Im Kurs geht es tiefer</div>
+      <div class="kt-text">${sg.teaser}</div>
+      <button class="kt-btn" onclick="showPanel('ergebnis')">Zum Kurs erfahren →</button>
+    </div>`;
+}
+
+// ── Ergebnis ──────────────────────────────
+function renderResult(){
+  const sorted=[...SEG.map((sg,i)=>({sg,v:state.start[i],i}))].sort((a,b)=>a.v-b.v);
+  const el=document.getElementById("result-areas");
+  if(!el) return;
+  el.innerHTML=sorted.map(({sg,v},rank)=>`
+    <div class="result-area-row">
+      <span class="result-area-name">${sg.name}</span>
+      <div class="result-area-bar-wrap"><div class="result-area-bar" style="width:${v*10}%;background:${sg.mid};"></div></div>
+      <span class="result-area-val">${v}/10</span>
+    </div>
+    ${rank<2?`<div class="result-teaser"><span class="rt-icon">✦</span><span class="rt-text">${sg.teaser}</span></div>`:""}
+  `).join("");
+}
+
+// ── Klick ins Rad ─────────────────────────
+function attachClick(id,cb){
+  const wrapId=id.replace("canvas-","svg-");
+  const wrap=document.getElementById(wrapId);
+  if(!wrap) return;
+  const S=300,cx=150,cy=150,R=136,Ri=16,step=(2*Math.PI)/N,sa=-Math.PI/2;
+  function handle(clientX,clientY){
+    const rect=wrap.getBoundingClientRect();
+    if(!rect.width) return;
+    const dx=(clientX-rect.left)*(S/rect.width)-cx,dy=(clientY-rect.top)*(S/rect.height)-cy;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<Ri||dist>R+15) return;
+    let ang=Math.atan2(dy,dx)-sa; if(ang<0) ang+=2*Math.PI;
+    const i=Math.floor(ang/step)%N;
+    cb(i);
+  }
+  wrap.addEventListener("click",e=>handle(e.clientX,e.clientY));
+  wrap.addEventListener("touchend",e=>{e.preventDefault();const t=e.changedTouches[0];handle(t.clientX,t.clientY);},{passive:false});
+}
+
+// ── Opt-in entfernt (Vollversion) ──────────
+
+// ── Panel wechseln ────────────────────────
+function showPanel(w){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("panel-"+w).classList.add("active");
+  const idx=["start","reflexion","ergebnis"].indexOf(w);
+  document.querySelectorAll(".tab")[idx].classList.add("active");
+  requestAnimationFrame(()=>{
+    if(w==="start"){draw("canvas-start",state.start);renderStats();}
+    if(w==="reflexion"){draw("canvas-reflexion",state.start,activeIdx);renderDetail(activeIdx);}
+    if(w==="ergebnis"){renderResult();}
+  });
+}
+
+// ── Init ──────────────────────────────────
+
+// ── Kurs-Empfehlung ───────────────────────
+function renderKursEmpfehlung(){
+  const sorted=[...SEG.map((sg,i)=>({sg,v:state.start[i]||state.end[i]||5,i}))].sort((a,b)=>a.v-b.v);
+  const top2=sorted.slice(0,2);
+  const el=document.getElementById("kurs-empfehlung-box");
+  if(!el) return;
+  el.innerHTML=`
+    <div class="ke-title">✦ Dein nächster Schritt</div>
+    <div class="ke-intro">Diese zwei Bereiche zeigen das größte Entwicklungspotenzial – hier sind die passenden Kurse:</div>
+    <div class="ke-cards">
+      ${top2.map(({sg,v})=>`
+        <div class="ke-card">
+          <div class="ke-dot" style="background:${sg.mid};"></div>
+          <div class="ke-info">
+            <div class="ke-bereich">${sg.name}</div>
+            <div class="ke-name">Kurs »${sg.kurs.name}«</div>
+            <div class="ke-score">Dein Wert: ${v}/10</div>
+          </div>
+          <a class="ke-btn" href="${sg.kurs.url}">Mehr erfahren →</a>
+        </div>`).join("")}
+    </div>`;
+}
+
+function initAll(){
+  try{const s=localStorage.getItem("lr_fb");if(s){const p=JSON.parse(s);p.forEach((v,i)=>{if(i<N)state.start[i]=v;});}}catch(e){}
+  buildSliders();
+  renderKursEmpfehlung();
+  buildSegSel();
+  attachClick("canvas-start",i=>{
+    activeIdx=i;
+    document.querySelectorAll(".seg-btn").forEach((b,bi)=>b.classList.toggle("active",bi===i));
+    draw("canvas-start",state.start);
+    renderStats();
+  });
+  attachClick("canvas-reflexion",i=>{
+    activeIdx=i;
+    document.querySelectorAll(".seg-btn").forEach((b,bi)=>b.classList.toggle("active",bi===i));
+    renderDetail(i);
+    draw("canvas-reflexion",state.start,i);
+  });
+  requestAnimationFrame(()=>{
+    draw("canvas-start",state.start);
+    renderStats();
+    draw("canvas-reflexion",state.start,0);
+    renderDetail(0);
+  });
+}
+
+if(document.readyState==="complete"||document.readyState==="interactive"){
+  setTimeout(initAll,30);
+} else {
+  document.addEventListener("DOMContentLoaded",()=>setTimeout(initAll,30));
+}
+</script>
+</body>
+</html>
